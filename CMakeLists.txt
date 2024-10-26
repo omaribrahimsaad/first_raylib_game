@@ -11,8 +11,34 @@ endif()
 
 project ("first_raylib_game")
 
+# Specify the C++ standard
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+set(RAYLIB_INCLUDE "C:/Side_Projects/raylib")
+set(RAYLIB_LIB "C:/Side_Projects/first_raylib_game/first_raylib_game/libs/raylib")
+
+
 # Add source to this project's executable.
-add_executable (first_raylib_game "first_raylib_game.cpp" "first_raylib_game.h")
+include_directories(first_raylib_game PRIVATE ${RAYLIB_INCLUDE}/src)
+add_executable(first_raylib_game "first_raylib_game.cpp" "first_raylib_game.h")
+
+
+find_library(found_library raylib PATH ${RAYLIB_LIB}/Debug)    
+target_link_libraries(first_raylib_game PRIVATE ${found_library} winmm)
+
+#if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+#    find_library(${RAYLIB_DIR} raylib PATH ${RAYLIB_DIR}/Debug)    
+#    # Add source to this project's executable.
+#    add_executable(raylib "first_raylib_game.cpp" "first_raylib_game.h")
+#    include_directories(first_raylib_game PRIVATE ${RAYLIB_DIR}/src)
+#    target_link_libraries(first_raylib_game PRIVATE ${raylib})
+##else()
+#    target_link_directories(first_raylib_game PRIVATE ${RAYLIB_DIR}/Release)
+#    target_link_libraries(first_raylib_game PRIVATE ${RAYLIB_DIR}/Release/raylib)
+#endif()
+
+
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET first_raylib_game PROPERTY CXX_STANDARD 20)
